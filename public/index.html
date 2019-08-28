@@ -1,0 +1,59 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>OCR Email</title>
+  <link rel="shortcut icon" type="image/png" href="https://cdn.glitch.com/c45b6b93-4b8c-4d9a-869e-8300226b80f9%2Fenvelope_2709.png?v=1566507392559"/>
+	<link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+  <!-- This is a screenshot of the app for link previews -->
+  <img src="https://cdn.glitch.com/e71c8d59-5815-4d04-8a14-9d5e36165954%2FScreen%20Shot%202018-11-07%20at%203.46.53%20PM.png?1541623714077" height="0" width="0">
+  
+  <div id="header">
+    <img id="mouse-logo" src="https://cdn.glitch.com/e71c8d59-5815-4d04-8a14-9d5e36165954%2Fmouse_logo_gear_rgb%20(1).png?1541612754785">
+	  <h1>OCR Email</h1>
+  </div>
+  
+  <div id="left">
+    <form id="camera-button">
+      <button type="button" id="shutter-button" onclick="countdown()">Start</button>
+    </form>
+    <div id="my-camera-container">
+      <div id="my-camera"></div>
+      <h1 id="countdown">3</h1>
+    </div>
+
+  </div>
+  
+  <div id="right">
+    
+    <div id="results-header">
+      <div id="results-message">
+      <h2>
+        Your email draft will appear below:
+      </h2>
+    </div>
+      <div id="download-button"></div>
+    </div>
+    <div>
+      <h1 id="ocrh1">
+      
+      </h1>
+    </div>
+    
+    
+  </div>
+  <div id="results-container">
+    <div id="results">
+
+    </div>
+  </div>
+	<!-- First, include the Webcam.js JavaScript Library -->
+	<script type="text/javascript" src="https://pixlcore.com/demos/webcamjs/webcam.min.js"></script>
+  <script type="text/javascript" src="https://unpkg.com/tesseract.js@v2.0.0-alpha.13/dist/tesseract.min.js"></script>
+  <script type="text/javascript" src="script.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,20 @@
+{
+  "name": "e-mail",
+  "version": "0.0.1",
+  "description": "E-mail website",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.16.4",
+    "nodemailer": "^6.3.0"
+  },
+  "engines": {
+    "node": "8.x"
+  },
+  "repository": {
+    "url": "https://github.com/PatrickWeaver/e-mail"
+  },
+  "license": "MIT"
+}
