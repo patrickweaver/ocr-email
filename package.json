@@ -1,20 +1,33 @@
 {
-  "name": "e-mail",
+  "name": "blank-webpack",
   "version": "0.0.1",
-  "description": "E-mail website",
+  "description": "",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "build": "webpack",
+    "start": "webpack && node server.js"
   },
   "dependencies": {
     "express": "^4.16.4",
-    "nodemailer": "^6.3.0"
+    "image-filter-brightness": "^1.0.0",
+    "image-filter-contrast": "^1.0.0",
+    "image-filter-core": "^2.0.2",
+    "image-filter-grayscale": "^1.0.1",
+    "tesseract.js": "^1.0.19",
+    "webpack": "^4.35.0",
+    "webpack-cli": "^3.3.5",
+    "request-promise": "^4.2.4",
+    "request": "^2.88.0",
+    "body-parser": "^1.19.0",
+    "nodemailer": "^6.3.0",
+    "node-base64-image": "^1.0.6"
   },
   "engines": {
-    "node": "8.x"
+    "node": "10.x"
   },
   "repository": {
-    "url": "https://github.com/PatrickWeaver/e-mail"
+    "url": ""
   },
-  "license": "MIT"
+  "license": "MIT",
+  "keywords": []
 }

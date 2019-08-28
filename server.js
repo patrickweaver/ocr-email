@@ -1,14 +1,19 @@
 var enabled = false;
 
-var express = require('express');
-var app = express();
-var nodemailer = require('nodemailer');
-
+const express = require('express');
+const app = express();
+const bodyParser = require('body-parser')
+app.use(bodyParser.json({limit: '50mb'}))
 app.use(express.static('public'));
 
-var sender = process.env.SENDER;
+const rp = require('request-promise')
+const base64 = require('node-base64-image')
 
-var transporter = nodemailer.createTransport({
+const gvocr = require('./googleVision').googleVisionTextDetection
+
+const nodemailer = require('nodemailer');
+const sender = process.env.SENDER;
+const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
     user: sender,
@@ -16,18 +21,71 @@ var transporter = nodemailer.createTransport({
   }
 });
 
-app.get("/send", async function (request, response) {
+
+
+app.get("/", function(req, res) {
+  res.sendFile(__dirname + '/views/index.html');
+});
+
+
+app.post("/ocr", async function(req, res) {
+  console.log("OCR")
+  const imageUrl = req.body.imageUrl
+  const gvResponse = await gvocr(imageUrl.substring(22, imageUrl.length))
+  var text = gvResponse.text
   
-  console.log(request.query)
+  // Remove 'send' command
+  text = text.trim()
+  text = text.substring(0, text.length - 4)
+  
+  console.log("***")
+  console.log(gvResponse.text)
+  console.log("***")
+  
+  
+  
+  var recipient = false;
+  var subject = text.substring(0, text.indexOf('\n'))
+  var rest = text.substring(text.indexOf('\n') + 1, text.length).trim()
+  if (subject.indexOf('@') > 0) {
+    recipient = subject
+    subject = rest.substring(0, rest.indexOf('\n'))
+    rest = rest.substring(rest.indexOf('\n'), rest.length).trim()
+  }
+  const body = rest
+  
+  var sendOptions = {
+    method: 'GET',
+    uri: process.env.PROJECT_URL + 'send',
+    qs: {
+      subject: subject,
+      text: body
+    }
+  }
+  if (recipient) {
+    sendOptions.qs.recipient = recipient
+  }
+  
+  const status = await rp(sendOptions)
+  
+  
+  res.json(gvResponse)
+})
+
+app.get("/send", async function (req, res) {
+  
+  console.log('Send Query:')
+  console.log(req.query)
   
   if (enabled){
-    var text = request.query.text;
-    var subject = request.query.subject;
+    var text = req.query.text;
+    var subject = req.query.subject;
     
     var recipient = process.env.RECIPIENT
-    if (request.query.recipient) {
-      recipient = request.query.recipient
+    if (req.query.recipient) {
+      recipient = req.query.recipient
     }
+    
 
     var mailOptions = {
       from: sender,
@@ -44,7 +102,9 @@ app.get("/send", async function (request, response) {
         console.log('Email sent: ' + info.response);
       }
     }); 
-    response.redirect('/')
+    res.json({status: 'sent'})
+  } else {
+    res.json({status: 'not sent'})
   }
   
 });
